@@ -1,12 +1,12 @@
-// app/page.tsx (or wherever the Home component is located)
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
-import WeatherList from './components/WeatherList'; // Import WeatherList
+import WeatherList from './components/WeatherList'; 
 import { WeatherResponse } from './types';
-import { getForecastByCity } from './api/weather/route';
-import { AxiosError } from 'axios'; // Import AxiosError type
+
+import { AxiosError } from 'axios'; 
 
 export default function Home() {
   const [weatherData, setWeatherData] = useState<WeatherResponse | null>(null);
@@ -20,7 +20,7 @@ export default function Home() {
       const data = await getForecastByCity(city);
       //console.log("Fetched weather data:", data); // Log the full data to check its structure
       setWeatherData(data);
-    } catch (err: unknown) { // Use `unknown` and perform error type-checking
+    } catch (err: unknown) { 
       if (err instanceof AxiosError) {
         setError(err.response?.data?.error || 'Unable to fetch weather data. Please try again.');
       } else {
@@ -45,3 +45,15 @@ export default function Home() {
     </div>
   );
 }
+
+
+ const getForecastByCity = async (city: string) => {
+  const res = await fetch(`/api/weather?city=${city}`);
+  
+  if (!res.ok) {
+    throw new Error('Failed to fetch weather data');
+  }
+
+  const data = await res.json();
+  return data; 
+};

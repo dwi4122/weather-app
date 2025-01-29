@@ -2,7 +2,7 @@
 import { CloudRain, Sun, Cloud, Droplet, Wind, CloudLightning, SunSnow } from 'lucide-react';
 
 import React from 'react';
-import { WeatherCardProps } from '../types'; // Assuming this exists
+import { WeatherCardProps } from '../types';
 
 const WeatherCard: React.FC<WeatherCardProps> = ({ weather }) => {
   // Format the date as "Day of the week, Month dd, yyyy"

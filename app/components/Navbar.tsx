@@ -20,13 +20,13 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
 
   return (
     <nav className="bg-gray-200 shadow p-6">
-      {/* Empty space for the top part of the navbar */}
+      
       <Logo/>
 
       <div className="container mx-auto pt-12">
-        {/* Predefined City Buttons and Search Bar in the same row */}
+        
         <div className="flex items-end  gap-4">
-          {/* Predefined City Buttons */}
+          
           <div className="flex gap-2 flex-wrap">
             {predefinedCities.map((city) => (
               <button

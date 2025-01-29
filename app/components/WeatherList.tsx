@@ -1,9 +1,9 @@
 import React from 'react';
-import WeatherCard from './WeatherCard'; // Import your WeatherCard component
-import { WeatherResponse } from '../types'; // Assuming this exists
+import WeatherCard from './WeatherCard'; 
+import { WeatherResponse } from '../types'; 
 
 const WeatherList: React.FC<{ weatherData: WeatherResponse }> = ({ weatherData }) => {
-    // Get hourly forecast (adjust as needed based on your actual API structure)
+    // Get hourly forecast 
     const hourlyForecasts = weatherData.list;
   
     // Select only one forecast per day, assuming the data is returned for 3-hour intervals.

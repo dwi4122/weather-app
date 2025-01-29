@@ -1,15 +1,20 @@
-import { WeatherResponse } from '@/app/types';
-import axios, { AxiosError } from 'axios'; // Import AxiosError for better error typing
+import { NextResponse } from 'next/server';
+import axios, { AxiosError } from 'axios'; 
+import { WeatherResponse } from '@/app/types'; 
 
 // OpenWeatherMap API key and base URL
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/forecast';
 
+// GET request handler for fetching weather by city
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const city = url.searchParams.get('city'); // Extract city from the query string
 
+  if (!city) {
+    return NextResponse.json({ error: 'City is required' }, { status: 400 });
+  }
 
-
-export const getForecastByCity = async (city: string): Promise<WeatherResponse> => {
-  //console.log(API_KEY);
   try {
     const response = await axios.get(BASE_URL, {
       params: {
@@ -19,7 +24,7 @@ export const getForecastByCity = async (city: string): Promise<WeatherResponse> 
       },
     });
 
-    // Use more specific types instead of `any`
+    // Format the data to match the WeatherResponse type
     const weatherData: WeatherResponse = {
       city: {
         name: response.data.city.name,
@@ -35,7 +40,7 @@ export const getForecastByCity = async (city: string): Promise<WeatherResponse> 
         };
         weather: { description: string }[];
         wind: { speed: number; deg: number };
-        rain?: { '24h': number }; // Rain data might not exist for every forecast
+        rain?: { '3h': number }; // Rain data might not exist for every forecast
       }) => ({
         dt_txt: entry.dt_txt,
         main: {
@@ -45,27 +50,29 @@ export const getForecastByCity = async (city: string): Promise<WeatherResponse> 
           feels_like: entry.main.feels_like,
           humidity: entry.main.humidity,
         },
-        weather: entry.weather.map(w => ({
+        weather: entry.weather.map((w) => ({
           description: w.description,
         })),
         wind: {
           speed: entry.wind.speed,
           deg: entry.wind.deg,
         },
-        rain: entry.rain ? entry.rain['24h'] : 0, // Default to 0 if no rain data
+        rain: entry.rain ? entry.rain['3h'] : 0, // Default to 0 if no rain data
       })),
     };
 
-    return weatherData;
+    return NextResponse.json(weatherData);
   } catch (error: unknown) {
-    // Handle the error with type-checking
+    // Type check the error as AxiosError to handle specific error structure
     if (error instanceof AxiosError) {
-      throw new Error(`Error fetching data: ${error.response?.status} - ${error.response?.statusText}`);
+      
+      return NextResponse.json(
+        { error: `Error fetching data: ${error.response?.status} - ${error.response?.statusText}` },
+        { status: 500 }
+      );
     } else {
-      throw new Error('An unknown error occurred while fetching weather data.');
+      // Handle any non-Axios errors
+      return NextResponse.json({ error: 'An unknown error occurred while fetching weather data.' }, { status: 500 });
     }
   }
-};
-
-
-
+}
