@@ -5,19 +5,7 @@ import axios, { AxiosError } from 'axios'; // Import AxiosError for better error
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/forecast';
 
-// Interface for forecast entry
-interface Forecast {
-  datetime: Date;
-  temp: number;
-  temp_min: number;
-  temp_max: number;
-  feels_like: number;
-  condition: string;
-  wind_speed: number;
-  wind_deg: number;
-  humidity: number;
-  rain: number;
-}
+
 
 
 export const getForecastByCity = async (city: string): Promise<WeatherResponse> => {
