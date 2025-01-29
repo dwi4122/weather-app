@@ -6,8 +6,8 @@ export interface Weather {
     temp: number; // Current temperature
     feels_like: number; // Feels like temperature
     humidity: number; // Humidity percentage
-    temp_min: number| undefined; // Optional minimum temperature
-    temp_max: number | undefined; // Optional maximum temperature
+    temp_min: number; // Optional minimum temperature
+    temp_max: number ; // Optional maximum temperature
   };
   weather: {
     description: string; // Weather description (e.g., "clear sky", "light rain")
@@ -40,7 +40,7 @@ export type WeatherCardProps = {
     windSpeed: number;
     weather: string;
   };
-  isToday: boolean;
+  
 };
 
 

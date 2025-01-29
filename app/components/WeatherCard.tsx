@@ -4,7 +4,7 @@ import { CloudRain, Sun, Cloud, Droplet, Wind, CloudLightning, SunSnow } from 'l
 import React from 'react';
 import { WeatherCardProps } from '../types'; // Assuming this exists
 
-const WeatherCard: React.FC<WeatherCardProps> = ({ weather, isToday }) => {
+const WeatherCard: React.FC<WeatherCardProps> = ({ weather }) => {
   // Format the date as "Day of the week, Month dd, yyyy"
   const formattedDate = new Intl.DateTimeFormat('en-GB', {
     weekday: 'long',   // e.g., Monday
